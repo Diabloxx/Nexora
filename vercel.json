@@ -1,22 +1,8 @@
 {
   "version": 2,
   "name": "nexora",
-  "builds": [
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "client/build/index.html"
-    }
-  ],
   "buildCommand": "cd client && npm install && npm run build",
   "outputDirectory": "client/build",
-  "framework": "create-react-app"
+  "framework": "create-react-app",
+  "installCommand": "cd client && npm install"
 }

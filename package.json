@@ -1,7 +1,7 @@
 {
   "name": "nexora",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "server:dev": "cd server && npm run dev",
@@ -11,8 +11,7 @@
     "build": "npm run client:build",
     "start": "cd server && npm start",
     "install:all": "npm install && cd server && npm install && cd ../client && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "cd client && npm install && npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["discord", "chat", "websocket", "real-time", "react", "nodejs"],
   "author": "",
