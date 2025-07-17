@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { fetchUserServers, setCurrentServer, setCurrentChannel, createServer } from '../store/slices/serverSlice';
+import { fetchUserServers, setCurrentServer, setCurrentChannel, createServer, Server } from '../store/slices/serverSlice';
 import { socketService } from '../services/socketService';
 import { Plus, Hash, VolumeX, Settings, Mic, Headphones } from 'lucide-react';
 import ChatArea from './chat/ChatArea';
@@ -23,7 +23,7 @@ const MainApp: React.FC = () => {
   const isLoading = (serverState as any)?.isLoading || false;
 
   // Create a welcome server if no servers exist
-  const welcomeServer = useMemo(() => ({
+  const welcomeServer = useMemo((): Server => ({
     id: 'welcome',
     name: 'Nexora Welcome',
     description: 'Welcome to Nexora!',
@@ -87,8 +87,8 @@ const MainApp: React.FC = () => {
   // Auto-select welcome server and channel if no servers exist
   useEffect(() => {
     if (servers.length === 0 && !currentServer) {
-      dispatch(setCurrentServer(welcomeServer as any));
-      dispatch(setCurrentChannel(welcomeServer.channels[0] as any));
+      dispatch(setCurrentServer(welcomeServer));
+      dispatch(setCurrentChannel(welcomeServer.channels[0]));
     }
   }, [servers.length, currentServer, dispatch, welcomeServer]);
 
@@ -555,7 +555,7 @@ const MainApp: React.FC = () => {
         <ServerSettingsModal
           isOpen={showServerManagementModal}
           onClose={() => setShowServerManagementModal(false)}
-          server={currentServer || displayCurrentServer}
+          server={(currentServer || displayCurrentServer)!}
         />
       )}
     </div>
