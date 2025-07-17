@@ -1,13 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-  return (
-    <div className="flex h-screen bg-nexora-dark overflow-hidden relative">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-glow-purple opacity-30 pointer-events-none"></div>
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none"></div>
-      
-      {/* Modern Server List Sidebar */}
-      <div className="w-20 bg-sidebar-gradient border-r border-purple-800/30 flex flex-col items-center py-6 space-y-4 overflow-y-auto backdrop-blur-lg relative z-20">{/* Increased z-index */}ver, setCurrentChannel, createServer } from '../store/slices/serverSlice';
+import { fetchUserServers, setCurrentServer, setCurrentChannel, createServer } from '../store/slices/serverSlice';
 import { socketService } from '../services/socketService';
 import { Plus, Hash, VolumeX, Settings, Mic, Headphones } from 'lucide-react';
 import ChatArea from './chat/ChatArea';
@@ -22,10 +15,6 @@ const MainApp: React.FC = () => {
   const [showCreateServerModal, setShowCreateServerModal] = useState(false);
   const [showServerManagementModal, setShowServerManagementModal] = useState(false);
   const [newServerName, setNewServerName] = useState('');
-
-  // Debug logging for modal state
-  console.log('Modal state - showCreateServerModal:', showCreateServerModal);
-  console.log('Modal state - showServerManagementModal:', showServerManagementModal);
 
   // Type-safe access to server state
   const servers = (serverState as any)?.servers || [];
@@ -157,6 +146,11 @@ const MainApp: React.FC = () => {
     }
   };
 
+  const handleCreateServerClick = () => {
+    console.log('Create server button clicked');
+    setShowCreateServerModal(true);
+  };
+
   return (
     <div className="flex h-screen bg-nexora-dark overflow-hidden relative">
       {/* Background Effects */}
@@ -220,31 +214,17 @@ const MainApp: React.FC = () => {
         ))}
         
         {/* Enhanced Add Server Button */}
-        <div className="relative group z-50">
+        <div className="relative group">
           <div 
-            onClick={() => {
-              console.log('Add server button clicked!');
-              setShowCreateServerModal(true);
-            }}
-            className="w-16 h-16 bg-gradient-to-br from-emerald-500/30 to-green-600/40 rounded-3xl flex items-center justify-center cursor-pointer hover:from-emerald-400/40 hover:to-green-500/50 transition-all duration-300 hover:rounded-2xl transform hover:scale-110 border-2 border-emerald-500/40 backdrop-blur-lg shadow-xl hover:shadow-emerald-500/30 ring-2 ring-emerald-600/20 hover:ring-emerald-400/40 relative z-10"
+            onClick={handleCreateServerClick}
+            className="w-16 h-16 bg-gradient-to-br from-emerald-500/30 to-green-600/40 rounded-3xl flex items-center justify-center cursor-pointer hover:from-emerald-400/40 hover:to-green-500/50 transition-all duration-300 hover:rounded-2xl transform hover:scale-110 border-2 border-emerald-500/40 backdrop-blur-lg shadow-xl hover:shadow-emerald-500/30 ring-2 ring-emerald-600/20 hover:ring-emerald-400/40"
           >
-            <Plus className="w-10 h-10 text-emerald-300 drop-shadow-2xl group-hover:rotate-90 transition-transform duration-300 pointer-events-none" />
+            <Plus className="w-10 h-10 text-emerald-300 drop-shadow-2xl group-hover:rotate-90 transition-transform duration-300" />
           </div>
-          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-emerald-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg pointer-events-none"></div>
+          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-emerald-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg"></div>
           {/* Glow Effect */}
-          <div className="absolute inset-0 bg-emerald-500 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl pointer-events-none"></div>
+          <div className="absolute inset-0 bg-emerald-500 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
         </div>
-        
-        {/* Debug Test Button */}
-        <button 
-          onClick={() => {
-            console.log('Debug test button clicked!');
-            setShowCreateServerModal(true);
-          }}
-          className="w-16 h-16 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors z-50 relative"
-        >
-          TEST
-        </button>
       </div>
       
       {/* Modern Channel List */}
@@ -492,7 +472,7 @@ const MainApp: React.FC = () => {
               {displayServers.length === 0 && (
                 <div className="space-y-4">
                   <button
-                    onClick={() => setShowCreateServerModal(true)}
+                    onClick={handleCreateServerClick}
                     className="bg-nexora-gradient hover:bg-nexora-gradient-hover text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-xl shadow-purple-500/25 backdrop-blur-sm"
                   >
                     Create Your First Server
