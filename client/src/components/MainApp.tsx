@@ -5,7 +5,7 @@ import { socketService } from '../services/socketService';
 import { Plus, Hash, VolumeX, Settings, Mic, Headphones } from 'lucide-react';
 import ChatArea from './chat/ChatArea';
 import MembersList from './members/MembersList';
-import { ServerSettingsModal } from './server';
+import ServerSettingsModal from './server/ServerSettingsModal';
 
 const MainApp: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
